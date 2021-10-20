@@ -40,7 +40,7 @@ const wait_1 = __nccwpck_require__(817);
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const ms = core.getInput('milliseconds');
+            const ms = '1000';
             core.debug(`Waiting ${ms} milliseconds ...`); // debug is only output if you set the secret `ACTIONS_STEP_DEBUG` to true
             core.debug(new Date().toTimeString());
             yield (0, wait_1.wait)(parseInt(ms, 10));

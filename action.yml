@@ -1,11 +1,27 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'Tag based on milestone title'
+description: 'Tag the repository on pull request merge. Tag name is based on the attached milestone title.'
+author: 'swisstopo'
 inputs:
-  milliseconds: # change this
+  github_token:
     required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+    description: 'Github repository token'
+  custom_tag:
+    default: '${MILESTONE}'
+    description: 'Custom Tag'
+  initial_tag_number:
+    default: 1
+    description: 'Initial tag number'
+  milestone_pattern:
+    default: '.+?'
+    description: 'Milestone pattern used to search previous tag'
+  dry_run:
+    default: false
+    description: 'Dry run for testing, do not create the tag if set to true.'
+outputs:
+  new_tag:
+    description: 'New tag'
+  previous_tag:
+    description: 'Previous tag'
 runs:
   using: 'node12'
   main: 'dist/index.js'
