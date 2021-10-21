@@ -1,9 +1,13 @@
 {
-  "name": "typescript-action",
+  "name": "action-milestone-tag",
   "version": "0.0.0",
   "private": true,
-  "description": "TypeScript template action",
+  "description": "Github action to tag the repository with the milestone title",
   "main": "lib/main.js",
+  "homepage": "https://github.com/geoadmin/action-milestone-tag/blob/develop/README.md",
+  "bugs": {
+    "url": "https://github.com/geoadmin/action-milestone-tag/issues"
+  },
   "scripts": {
     "build": "tsc",
     "format": "prettier --write '**/*.ts'",
@@ -15,15 +19,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/actions/typescript-action.git"
+    "url": "git+https://github.com/geoadmin/action-milestone-tag"
   },
   "keywords": [
     "actions",
     "node",
     "setup"
   ],
-  "author": "",
-  "license": "MIT",
+  "author": "brice.schaffner@swisstopo.ch",
+  "license": "BSD-3-Clause",
   "dependencies": {
     "@actions/core": "^1.6.0"
   },
