@@ -29,7 +29,7 @@ test('Tag pattern without milestone', () => {
   expect(pattern.test('Test_20211010_alpha-')).toBeFalsy()
 })
 
-test('Get lat Tag', () => {
+test('Get last Tag', () => {
   expect(
     getLastTag(
       [
@@ -45,7 +45,7 @@ test('Get lat Tag', () => {
   ).toBe('Test_20211010_alpha-3')
 })
 
-test('Get lat Tag without milestone', () => {
+test('Get last Tag without milestone', () => {
   expect(
     getLastTag(
       [
@@ -62,7 +62,7 @@ test('Get lat Tag without milestone', () => {
   ).toBe('Test_20211210_alpha-1')
 })
 
-test('Get lat Tag without milestone without tag number', () => {
+test('Get last Tag without milestone without tag number', () => {
   expect(
     getLastTag(
       [
@@ -80,7 +80,7 @@ test('Get lat Tag without milestone without tag number', () => {
   ).toBe('Test_20210910')
 })
 
-test('Get lat Tag with non existing milestone', () => {
+test('Get last Tag with non existing milestone', () => {
   expect(
     getLastTag(
       [
