@@ -56,7 +56,7 @@ jobs:
       # https://github.com/anothrNick/github-tag-action
       # https://github.com/geoadmin/doc-guidelines/blob/master/GIT_FLOW.md#versioning
       - name: Bump version and push tag
-        uses: anothrNick/github-tag-action@1.33.0
+        uses: anothrNick/github-tag-action@1.36.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WITH_V: true
