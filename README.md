@@ -60,11 +60,25 @@ title attached to the PR or based on the `milestone_pattern` input (default to `
 ## Example usage
 
 ```yaml
-- name: Bump Tag
-  uses: swisstopo-test/action-milestone-bump-tag@master
-  with:
-    github_token: ${{ secrets.GITHUB_TOKEN }}
-    custom_tag: '${MILESTONE}_rc${TAG_NUMBER}'
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - master
+
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Bump Milestone Tag
+        uses: geoadmin/action-milestone-@v1.0.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          custom_tag: '${MILESTONE}_rc${TAG_NUMBER}'
 ```
 
 ## Contributing
