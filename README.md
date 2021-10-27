@@ -75,7 +75,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Bump Milestone Tag
-        uses: geoadmin/action-milestone-@v1.0.0
+        uses: geoadmin/action-milestone-tag@v1.0.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           custom_tag: '${MILESTONE}_rc${TAG_NUMBER}'
