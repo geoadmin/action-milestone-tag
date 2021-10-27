@@ -1,29 +1,147 @@
-import {wait} from '../src/wait'
-import * as process from 'process'
-import * as cp from 'child_process'
-import * as path from 'path'
+import {getTagPattern, getNewTag, getLastTag} from '../src/utils'
 import {expect, test} from '@jest/globals'
 
-test('throws invalid number', async () => {
-  const input = parseInt('foo', 10)
-  await expect(wait(input)).rejects.toThrow('milliseconds not a number')
+test('Tag pattern', () => {
+  const pattern = getTagPattern(
+    'Test_${MILESTONE}_alpha-${TAG_NUMBER}',
+    '\\d+',
+    '20211010'
+  )
+  expect(pattern).toEqual(/^Test_20211010_alpha-(?<TAG_NUMBER>\d+)$/)
+  expect(pattern.test('Test_20211010_alpha-1')).toBeTruthy()
+  expect(pattern.test('Test_20211010_alpha-123')).toBeTruthy()
+  expect(pattern.test('Test_20211010_alpha-123a')).toBeFalsy()
+  expect(pattern.test('20211010')).toBeFalsy()
+  expect(pattern.test('Test_20211010_alpha-')).toBeFalsy()
 })
 
-test('wait 500 ms', async () => {
-  const start = new Date()
-  await wait(500)
-  const end = new Date()
-  var delta = Math.abs(end.getTime() - start.getTime())
-  expect(delta).toBeGreaterThan(450)
+test('Tag pattern without milestone', () => {
+  const pattern = getTagPattern(
+    'Test_${MILESTONE}_alpha-${TAG_NUMBER}',
+    '\\d+',
+    undefined
+  )
+  expect(pattern).toEqual(/^Test_(?<MILESTONE>\d+)_alpha-(?<TAG_NUMBER>\d+)$/)
+  expect(pattern.test('Test_20211010_alpha-1')).toBeTruthy()
+  expect(pattern.test('Test_my-milestone_alpha-123')).toBeFalsy()
+  expect(pattern.test('Test_20211010_alpha-123a')).toBeFalsy()
+  expect(pattern.test('20211010')).toBeFalsy()
+  expect(pattern.test('Test_20211010_alpha-')).toBeFalsy()
 })
 
-// shows how the runner will run a javascript action with env / stdout protocol
-test('test runs', () => {
-  process.env['INPUT_MILLISECONDS'] = '500'
-  const np = process.execPath
-  const ip = path.join(__dirname, '..', 'lib', 'main.js')
-  const options: cp.ExecFileSyncOptions = {
-    env: process.env
-  }
-  console.log(cp.execFileSync(np, [ip], options).toString())
+test('Get last Tag', () => {
+  expect(
+    getLastTag(
+      [
+        {name: 'Test_20211010_alpha-3a'},
+        {name: '20211010'},
+        {name: 'Test_20211010_alpha-'},
+        {name: 'Test_20211010_alpha-1'},
+        {name: 'Test_20211010_alpha-3'},
+        {name: 'Test_20211010_alpha-2'}
+      ],
+      getTagPattern('Test_${MILESTONE}_alpha-${TAG_NUMBER}', '\\d+', '20211010')
+    )
+  ).toBe('Test_20211010_alpha-3')
+})
+
+test('Get last Tag without milestone', () => {
+  expect(
+    getLastTag(
+      [
+        {name: 'Test_20211210_alpha-3a'},
+        {name: '20211010'},
+        {name: 'Test_20211010_alpha-'},
+        {name: 'Test_20211010_alpha-1'},
+        {name: 'Test_20211210_alpha-1'},
+        {name: 'Test_20211010_alpha-3'},
+        {name: 'Test_20211010_alpha-2'}
+      ],
+      getTagPattern('Test_${MILESTONE}_alpha-${TAG_NUMBER}', '\\d+', undefined)
+    )
+  ).toBe('Test_20211210_alpha-1')
+})
+
+test('Get last Tag without milestone without tag number', () => {
+  expect(
+    getLastTag(
+      [
+        {name: 'Test_20208110'},
+        {name: '20211210'},
+        {name: 'Test_20211010_alpha-'},
+        {name: 'Test_20211010_alpha-1'},
+        {name: 'Test_20211220_alpha-1'},
+        {name: 'Test_20210910'},
+        {name: 'Test_20211010_alpha-3'},
+        {name: 'Test_20211010_alpha-2'}
+      ],
+      getTagPattern('Test_${MILESTONE}', '\\d+', undefined)
+    )
+  ).toBe('Test_20210910')
+})
+
+test('Get last Tag with non existing milestone', () => {
+  expect(
+    getLastTag(
+      [
+        {name: 'Test_20208110'},
+        {name: '20211210'},
+        {name: 'Test_20211010_alpha-'},
+        {name: 'Test_20211010_alpha-1'},
+        {name: 'Test_20211220_alpha-1'},
+        {name: 'Test_20210910'},
+        {name: 'Test_20211010_alpha-3'},
+        {name: 'Test_20211010_alpha-2'}
+      ],
+      getTagPattern('Test_${MILESTONE}', '\\d+', '20220101')
+    )
+  ).toBe(null)
+})
+
+test('Get new initial Tag', () => {
+  expect(
+    getNewTag('Test_${MILESTONE}_rc${TAG_NUMBER}', '\\d+', 1, null, '20210101')
+  ).toBe('Test_20210101_rc1')
+})
+
+test('Get new Tag without milestone', () => {
+  expect(
+    getNewTag(
+      'Test_${MILESTONE}_rc${TAG_NUMBER}',
+      '\\d+',
+      1,
+      'Test_20210101_rc2',
+      null
+    )
+  ).toBe('Test_20210101_rc3')
+  expect(
+    getNewTag(
+      'Test_${MILESTONE}_${TAG_NUMBER}-alpha',
+      '\\d+',
+      1,
+      'Test_20210101_1-alpha',
+      null
+    )
+  ).toBe('Test_20210101_2-alpha')
+})
+
+test('Get new Tag', () => {
+  expect(
+    getNewTag(
+      'Test_${MILESTONE}_rc${TAG_NUMBER}',
+      '\\d+',
+      1,
+      'Test_20210101_rc2',
+      '20210101'
+    )
+  ).toBe('Test_20210101_rc3')
+  expect(
+    getNewTag(
+      'Test_${MILESTONE}_${TAG_NUMBER}-alpha',
+      '\\d+',
+      1,
+      'Test_20210101_1-alpha',
+      '20210101'
+    )
+  ).toBe('Test_20210101_2-alpha')
 })
