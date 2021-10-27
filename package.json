@@ -1,6 +1,6 @@
 {
   "name": "action-milestone-tag",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "private": true,
   "description": "Github action to tag the repository with the milestone title",
   "main": "lib/main.js",
