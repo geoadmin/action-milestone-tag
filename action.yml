@@ -22,6 +22,8 @@ outputs:
     description: 'New tag'
   previous_tag:
     description: 'Previous tag'
+  tag_created:
+    description: '"true" if a tag has been created, "false" otherwise'
 runs:
   using: 'node12'
   main: 'dist/index.js'

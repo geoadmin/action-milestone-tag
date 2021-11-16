@@ -52,10 +52,11 @@ title attached to the PR or based on the `milestone_pattern` input (default to `
 
 ## Outputs
 
-| Variable       | Type   | Description          |
-| -------------- | ------ | -------------------- |
-| `new_tag`      | String | New tag created.     |
-| `previous_tag` | String | Previous tag if any. |
+| Variable       | Type    | Description                                         |
+| -------------- | ------- | --------------------------------------------------- |
+| `new_tag`      | String  | New tag created.                                    |
+| `previous_tag` | String  | Previous tag if any.                                |
+| `tag_created`  | Boolean | `true` if a tag has been created, `false` otherwise |
 
 ## Example usage
 
@@ -66,7 +67,6 @@ on:
       - closed
     branches:
       - master
-
 
 jobs:
   release:
