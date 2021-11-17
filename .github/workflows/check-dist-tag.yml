@@ -48,17 +48,4 @@ jobs:
     needs: check-dist
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: '10'
-
-      # Details and Docu
-      # https://github.com/anothrNick/github-tag-action
-      # https://github.com/geoadmin/doc-guidelines/blob/master/GIT_FLOW.md#versioning
-      - name: Bump version and push tag
-        uses: anothrNick/github-tag-action@1.36.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          WITH_V: true
-          RELEASE_BRANCHES: master
-          TAG_CONTEXT: repo
+      - uses: geoadmin/.github/.github/workflows/semver-release.yml@master
