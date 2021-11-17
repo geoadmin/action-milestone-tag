@@ -67,21 +67,23 @@ function action() {
         core.debug(`pull_request: ${pullRequest}`);
         core.info(`PR merged: ${pullRequest.merged}`);
         core.info(`PR state: ${pullRequest.state}`);
-        if (!pullRequest.merged) {
-            core.info('Ignore non merged pull request');
-            return;
-        }
         const newTag = yield computeTags(pullRequest);
-        const { GITHUB_SHA } = process.env;
-        if (!GITHUB_SHA) {
-            throw Error('GITHUB_SHA environment variable not defined');
+        core.setOutput('new_tag', newTag);
+        core.setOutput('tag_created', false);
+        if (!pullRequest.merged) {
+            core.warning('Ignore non merged pull request');
+            return;
         }
         if (core.getBooleanInput('dry_run')) {
             core.warning('Dry run set, tag is not created');
         }
         else {
+            const { GITHUB_SHA } = process.env;
+            if (!GITHUB_SHA) {
+                throw Error('GITHUB_SHA environment variable not defined');
+            }
             (0, git_1.createTag)(newTag, GITHUB_SHA);
-            core.setOutput('new_tag', newTag);
+            core.setOutput('tag_created', true);
         }
     });
 }
