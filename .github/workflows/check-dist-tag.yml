@@ -46,6 +46,4 @@ jobs:
           path: dist/
   tagging:
     needs: check-dist
-    runs-on: ubuntu-latest
-    steps:
-      - uses: geoadmin/.github/.github/workflows/semver-release.yml@master
+    uses: geoadmin/.github/.github/workflows/semver-release.yml@master
