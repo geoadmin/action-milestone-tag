@@ -13,7 +13,7 @@
 - [Example usage](#example-usage)
 - [Contributing](#contributing)
   - [Setup your environment](#setup-your-environment)
-  - [Publish to a distribution branch](#publish-to-a-distribution-branch)
+  - [Create new Release](#create-new-release)
   - [Validate](#validate)
 
 ## Description
@@ -125,18 +125,22 @@ $ npm test
 ...
 ```
 
-### Publish to a distribution branch
+### Create new Release
 
 Actions are run from GitHub repos so we will checkin the packed dist folder.
 
-Then run [ncc](https://github.com/zeit/ncc) and push the results:
+1. First make sure the version in `package.json` match the next release version, if not update it.
+2. Then build the project, package it and push the changes as follow:
 
-```bash
-npm run package
-git add dist
-git commit -a -m "prod dependencies"
-git push origin feature-your-feature
-```
+   ```bash
+   npm run all
+   git add dist
+   git commit -a -m "prod dependencies"
+   git push origin feature-your-feature
+   ```
+
+3. Create a PR to merge this in `develop` branch
+4. Once the PR above has been merged, create a new Release PR to merge `develop` into `master`
 
 ### Validate
 
