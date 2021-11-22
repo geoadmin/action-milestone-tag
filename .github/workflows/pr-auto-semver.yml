@@ -11,17 +11,13 @@ name: PR Auto Label and SemVer Release Title Reusable Workflow
 # Finally add a Label to the PR based on HEAD branch name. These labels are then used to categorize
 # the release notes.
 
-# Usage example:
-# on:
-#   pull_request:
-#     types:
-#       - opened
-#       - reopened
-#       - synchronize
-#       - edited
-
 on:
-  workflow_call:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - edited
 
 jobs:
   pr-release-title:
