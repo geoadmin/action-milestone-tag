@@ -41,6 +41,7 @@ title attached to the PR or based on the `milestone_pattern` input (default to `
 | `custom_tag`         | String | `${MILESTONE}` | Custom tag to set. Several placeholders can be used, see [Custom Tag Placeholders](#custom-tag-placeholders). |
 | `initial_tag_number` | Number | `1`            | Initial `TAG_NUMBER` placeholder. |
 | `milestone_pattern`  | String | `.+?`          | Milestone pattern used to search for previous tag when not milestone is attached. |
+| `milestone`          | String | `''`           | Milestone value to use for tagging (overwrite the milestone attached to the PR) |
 | `dry_run`            | Bool   | `false`        | Dry run for testing, do not create the tag. |
 
 ### Custom Tag Placeholders
