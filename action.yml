@@ -14,6 +14,9 @@ inputs:
   milestone_pattern:
     default: '.+?'
     description: 'Milestone pattern used to search previous tag'
+  milestone:
+    default: null
+    description: 'Milestone value to use for tag (overwrite the value attached to the PR)'
   dry_run:
     default: false
     description: 'Dry run for testing, do not create the tag if set to true.'

@@ -44,7 +44,10 @@ function computeTags(pullRequest) {
         const custom_tag = core.getInput('custom_tag');
         const initial_tag_number = Number(core.getInput('initial_tag_number'));
         const milestone_pattern = core.getInput('milestone_pattern');
-        const milestone = pullRequest.milestone ? pullRequest.milestone.title : null;
+        let milestone = core.getInput('milestone');
+        if (!milestone) {
+            milestone = pullRequest.milestone ? pullRequest.milestone.title : null;
+        }
         (0, utils_1.checkMilestone)(milestone, milestone_pattern);
         core.info(`PR milestone: ${milestone}`);
         const tagPattern = (0, utils_1.getTagPattern)(custom_tag, milestone_pattern, milestone);

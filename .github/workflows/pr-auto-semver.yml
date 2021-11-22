@@ -1,0 +1,125 @@
+name: PR Auto Edit
+
+# Auto PR Release Title. When creating a Release or Hotfix, the PR title is automatically set.
+#
+# For new release (develop -> master PR) the title is set to `New Release <next-version> - <bump-type>`
+# with bump-type taken from the original title or from the change log commit message.
+# By default bump-type if not specified or found is set to minor.
+#
+# For hotfix (hotfix-* -> master PR) the title is set to `<next-version> - <original-title> - <bump-type>`
+#
+# Finally add a Label to the PR based on HEAD branch name. These labels are then used to categorize
+# the release notes.
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - edited
+
+jobs:
+  pr-release-title:
+    name: Set PR title
+    runs-on: ubuntu-latest
+    if: ${{ github.base_ref == 'master' }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: master
+
+      # This step is needed in order for the anothrNick/github-tag-action@1.33.0 action to work properly
+      - name: Do the merge but don't push it
+        run: |
+          cd ${GITHUB_WORKSPACE}
+          git config user.email "github@swisstopo.ch"
+          git config user.name "Github PR Auto Title Workflow"
+          git fetch origin ${{ github.head_ref }}:${{ github.head_ref }}
+          git merge ${{ github.head_ref }} --no-ff
+
+      - name: Get PR Infos
+        id: pr_infos
+        uses: Brymastr/pr-info-action@v1
+
+      - name: Get Bump Type and PR Title
+        id: bump_type
+        run: |
+          bump_type=minor
+          echo "Set Bump Type default to ${bump_type}"
+
+          # Set default bump type for hotfixes
+          case "${{ github.head_ref }}" in
+            hotfix-* | bugfix-* | bug-*)
+              bump_type=patch
+              echo "Hotfix detected set default bump to ${bump_type}"
+              ;;
+
+            feat-* | feature-*)
+              bump_type=minor
+              echo "Hotfix detected set default bump to ${bump_type}"
+              ;;
+          esac
+
+          echo "Set bump type based on PR infos"
+          case "${{ steps.pr_infos.outputs.body }}" in
+            *#major*) bump_type=major ;;
+            *#minor*) bump_type=minor ;;
+            *#patch*) bump_type=patch ;;
+          esac
+
+          case "${{ steps.pr_infos.outputs.title }}" in
+            *#major*) bump_type=major ;;
+            *#minor*) bump_type=minor ;;
+            *#patch*) bump_type=patch ;;
+          esac
+          echo "::set-output name=bump::${bump_type}"
+          echo "Bump type set to ${bump_type}"
+
+          echo "Remove bump type from original title"
+          pr_title="${{ steps.pr_infos.outputs.title }}"
+          pr_title="${pr_title//[#]$bump_type/}"
+          echo "::set-output name=pr_title::${pr_title}"
+
+      - name: Bump version (without tagging)
+        id: get_tag
+        uses: anothrNick/github-tag-action@1.33.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WITH_V: true
+          DEFAULT_BUMP: ${{ steps.bump_type.outputs.bump }}
+          RELEASE_BRANCHES: master
+          TAG_CONTEXT: repo
+          DRY_RUN: true
+
+      - name: Set `New Release` PR title if needed
+        if: ${{ github.head_ref == 'develop' }}
+        uses: juztcode/pr-updater@1.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          title: "New Release ${{ steps.get_tag.outputs.new_tag }} - #${{ steps.bump_type.outputs.bump }}"
+          body: ${{ steps.pr_infos.outputs.body }}
+
+      - name: Set `Hotfix` PR title if needed
+        if: ${{ github.head_ref != 'develop' }}
+        uses: juztcode/pr-updater@1.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          title: "${{ steps.get_tag.outputs.new_tag }} - ${{ steps.bump_type.outputs.pr_title }} - #${{ steps.bump_type.outputs.bump }}"
+          body: ${{ steps.pr_infos.outputs.body }}
+
+  pr-labeler:
+    name: Set PR label
+    runs-on: ubuntu-latest
+    steps:
+      - name: PR Auto Labeler
+        uses: release-drafter/release-drafter@v5
+        with:
+          config-name: release-drafter-labeler-config.yml
+          disable-autolabeler: false
+          disable-releaser: true
+
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
