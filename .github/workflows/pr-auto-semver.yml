@@ -1,4 +1,4 @@
-name: PR Auto Label and SemVer Release Title Reusable Workflow
+name: PR Auto Edit
 
 # Auto PR Release Title. When creating a Release or Hotfix, the PR title is automatically set.
 #
