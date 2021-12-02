@@ -85,7 +85,7 @@ function action() {
             if (!GITHUB_SHA) {
                 throw Error('GITHUB_SHA environment variable not defined');
             }
-            (0, git_1.createTag)(newTag, GITHUB_SHA);
+            yield (0, git_1.createTag)(newTag, GITHUB_SHA);
             core.setOutput('tag_created', true);
         }
     });
@@ -200,7 +200,7 @@ const action_1 = __importDefault(__nccwpck_require__(9139));
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            (0, action_1.default)();
+            yield (0, action_1.default)();
         }
         catch (error) {
             if (error instanceof Error) {
