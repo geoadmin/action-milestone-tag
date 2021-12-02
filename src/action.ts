@@ -62,7 +62,7 @@ export default async function action(): Promise<void> {
     if (!GITHUB_SHA) {
       throw Error('GITHUB_SHA environment variable not defined')
     }
-    createTag(newTag, GITHUB_SHA)
+    await createTag(newTag, GITHUB_SHA)
     core.setOutput('tag_created', true)
   }
 }
