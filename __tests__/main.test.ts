@@ -38,11 +38,15 @@ test('Get last Tag', () => {
         {name: 'Test_20211010_alpha-'},
         {name: 'Test_20211010_alpha-1'},
         {name: 'Test_20211010_alpha-3'},
-        {name: 'Test_20211010_alpha-2'}
+        {name: 'Test_20211010_alpha-11'},
+        {name: 'Test_20211010_alpha-2'},
+        {name: 'Test_20211010_alpha-10'},
+        {name: 'Test_20211010_alpha-9'},
+        {name: 'Test_20201010_alpha-12'}
       ],
       getTagPattern('Test_${MILESTONE}_alpha-${TAG_NUMBER}', '\\d+', '20211010')
     )
-  ).toBe('Test_20211010_alpha-3')
+  ).toBe('Test_20211010_alpha-11')
 })
 
 test('Get last Tag without milestone', () => {
@@ -55,11 +59,13 @@ test('Get last Tag without milestone', () => {
         {name: 'Test_20211010_alpha-1'},
         {name: 'Test_20211210_alpha-1'},
         {name: 'Test_20211010_alpha-3'},
-        {name: 'Test_20211010_alpha-2'}
+        {name: 'Test_20211010_alpha-2'},
+        {name: 'Test_20211210_alpha-9'},
+        {name: 'Test_20211210_alpha-10'}
       ],
       getTagPattern('Test_${MILESTONE}_alpha-${TAG_NUMBER}', '\\d+', undefined)
     )
-  ).toBe('Test_20211210_alpha-1')
+  ).toBe('Test_20211210_alpha-10')
 })
 
 test('Get last Tag without milestone without tag number', () => {
