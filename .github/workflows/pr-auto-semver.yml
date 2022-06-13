@@ -30,7 +30,7 @@ jobs:
           fetch-depth: 0
           ref: master
 
-      # This step is needed in order for the anothrNick/github-tag-action@1.33.0 action to work properly
+      # This step is needed in order for the anothrNick/github-tag-action@1.39.0 action to work properly
       - name: Do the merge but don't push it
         run: |
           cd ${GITHUB_WORKSPACE}
@@ -84,7 +84,7 @@ jobs:
 
       - name: Bump version (without tagging)
         id: get_tag
-        uses: anothrNick/github-tag-action@1.33.0
+        uses: anothrNick/github-tag-action@1.39.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WITH_V: true
