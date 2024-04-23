@@ -28,5 +28,5 @@ outputs:
   tag_created:
     description: '"true" if a tag has been created, "false" otherwise'
 runs:
-  using: 'node12'
+  using: 'node20'
   main: 'dist/index.js'
