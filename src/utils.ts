@@ -1,12 +1,12 @@
 import * as core from '@actions/core'
-import {Tag} from './interfaces'
-import {orderBy} from 'natural-orderby'
+import { Tag } from './interfaces.js'
+import { orderBy } from 'natural-orderby'
 
 export function getLastTag(tags: Tag[], tag_pattern: RegExp): string | null {
   let lastTag: string | null = null
 
   const filteredTags = tags.filter((t: Tag) => tag_pattern.test(t.name))
-  const filteredSortedTags = orderBy(filteredTags, v => v.name, 'desc')
+  const filteredSortedTags = orderBy(filteredTags, (v) => v.name, 'desc')
   if (filteredSortedTags.length) {
     lastTag = filteredSortedTags[0].name
   }

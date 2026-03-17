@@ -1,5 +1,7 @@
 name: 'Tag based on milestone title'
-description: 'Tag the repository on pull request merge. Tag name is based on the attached milestone title.'
+description:
+  'Tag the repository on pull request merge. Tag name is based on the attached
+  milestone title.'
 author: 'swisstopo'
 inputs:
   github_token:
@@ -16,7 +18,8 @@ inputs:
     description: 'Milestone pattern used to search previous tag'
   milestone:
     default: null
-    description: 'Milestone value to use for tag (overwrite the value attached to the PR)'
+    description:
+      'Milestone value to use for tag (overwrite the value attached to the PR)'
   dry_run:
     default: false
     description: 'Dry run for testing, do not create the tag if set to true.'
@@ -28,5 +31,5 @@ outputs:
   tag_created:
     description: '"true" if a tag has been created, "false" otherwise'
 runs:
-  using: 'node20'
-  main: 'dist/index.js'
+  using: node24
+  main: dist/index.js
