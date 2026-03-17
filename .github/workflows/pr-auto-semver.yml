@@ -19,6 +19,11 @@ on:
       - synchronize
       - edited
 
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
 jobs:
   pr-edit:
     uses: geoadmin/.github/.github/workflows/pr-auto-semver.yml@master
