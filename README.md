@@ -18,19 +18,20 @@
 
 ## Description
 
-This github action can be used on pull request merge to tag the repository. The tag name is based on
-the attached milestone if any or on the previous tag.
+This github action can be used on pull request merge to tag the repository. The
+tag name is based on the attached milestone if any or on the previous tag.
 
-You can also use the input `custom_tag` to
-modify the tag name by for example adding a prefix or suffix (e.g.
-`custom_tag = '${MILESTONE}_my-suffix'`).
+You can also use the input `custom_tag` to modify the tag name by for example
+adding a prefix or suffix (e.g. `custom_tag = '${MILESTONE}_my-suffix'`).
 
-When your workflow requires more than one tag per milestone, you can use the `${TAG_NUMBER}`
-placeholder in the `custom_tag`. This placeholder will then be automatically incremented based on
-the previous tag found matching the `custom_tag`. The previous tag is search based on the milestone
-title attached to the PR or based on the `milestone_pattern` input (default to `.*?`).
+When your workflow requires more than one tag per milestone, you can use the
+`${TAG_NUMBER}` placeholder in the `custom_tag`. This placeholder will then be
+automatically incremented based on the previous tag found matching the
+`custom_tag`. The previous tag is search based on the milestone title attached
+to the PR or based on the `milestone_pattern` input (default to `.*?`).
 
-> **_IMPORTANT NOTE:_** _This action only works with Pull Request and can only be used with the `pull_request` event._
+> **_IMPORTANT NOTE:_** _This action only works with Pull Request and can only
+> be used with the `pull_request` event._
 
 ## Inputs
 
@@ -84,16 +85,18 @@ jobs:
 
 ## Contributing
 
-Every contribution to this action is welcome ! So if you find a bug or want to add a new feature
-everyone is welcome to open an [issue](https://github.com/geoadmin/action-milestone-tag/issues) or
-created a [Pull Request](https://github.com/geoadmin/action-milestone-tag/pulls).
+Every contribution to this action is welcome ! So if you find a bug or want to
+add a new feature everyone is welcome to open an
+[issue](https://github.com/geoadmin/action-milestone-tag/issues) or created a
+[Pull Request](https://github.com/geoadmin/action-milestone-tag/pulls).
 
 Any contribution must follow the
 [git-flow](https://nvie.com/posts/a-successful-git-branching-model/#the-main-branches).
 
 ### Setup your environment
 
-> First, you'll need to have a reasonably modern version of `node` handy. This won't work with versions older than 9, for instance.
+> First, you'll need to have a reasonably modern version of `node` handy. This
+> won't work with versions older than 9, for instance.
 
 Install the dependencies
 
@@ -130,7 +133,8 @@ $ npm test
 
 Actions are run from GitHub repos so we will checkin the packed dist folder.
 
-1. First make sure the version in `package.json` match the next release version, if not update it.
+1. First make sure the version in `package.json` match the next release version,
+   if not update it.
 2. Then build the project, package it and push the changes as follow:
 
    ```bash
@@ -141,11 +145,13 @@ Actions are run from GitHub repos so we will checkin the packed dist folder.
    ```
 
 3. Create a PR to merge this in `develop` branch
-4. Once the PR above has been merged, create a new Release PR to merge `develop` into `master`
+4. Once the PR above has been merged, create a new Release PR to merge `develop`
+   into `master`
 
 ### Validate
 
-You can now validate the action by referencing `./` in a workflow in your repo (see [test.yml](.github/workflows/test.yml))
+You can now validate the action by referencing `./` in a workflow in your repo
+(see [test.yml](.github/workflows/test.yml))
 
 ```yaml
 uses: ./
@@ -154,4 +160,5 @@ with:
   dry_run: true
 ```
 
-See the [actions tab](https://github.com/geoadmin/action-milestone-tag/actions) for runs of this action! :rocket:
+See the [actions tab](https://github.com/geoadmin/action-milestone-tag/actions)
+for runs of this action! :rocket:
