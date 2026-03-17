@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {WebhookPayload} from '@actions/github/lib/interfaces'
 
 export interface RepoWebhookPayload {
   ref: string
@@ -9,7 +8,7 @@ export interface RepoWebhookPayload {
   }
 }
 
-export interface PullRequestWebhookPayload extends WebhookPayload {
+export interface PullRequestWebhookPayload {
   pull_request?: {
     [key: string]: any
     number: number

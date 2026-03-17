@@ -1,9 +1,9 @@
 import * as core from '@actions/core'
-import {context, getOctokit} from '@actions/github'
+import { context, getOctokit } from '@actions/github'
 
-import {Tag} from './interfaces'
+import { Tag } from './interfaces.js'
 
-const octokit = getOctokit(core.getInput('github_token', {required: true}))
+const octokit = getOctokit(core.getInput('github_token', { required: true }))
 
 /**
  * Fetch all tags for the given repository recursively

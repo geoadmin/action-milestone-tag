@@ -1,8 +1,13 @@
 import * as core from '@actions/core'
 
-import action from './action'
+import action from './action.js'
 
-async function run(): Promise<void> {
+/**
+ * The main function for the action.
+ *
+ * @returns Resolves when the action is complete.
+ */
+export async function run(): Promise<void> {
   try {
     await action()
   } catch (error) {
@@ -13,5 +18,3 @@ async function run(): Promise<void> {
     }
   }
 }
-
-run()
