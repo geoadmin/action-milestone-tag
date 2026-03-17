@@ -1,10 +1,12 @@
+<!-- markdownlint-disable -->
+
 <p align="center">
   <a href="https://github.com/geoadmin/action-milestone-tag/actions">
     <img alt="action-milestone-tag status" src="https://github.com/geoadmin/action-milestone-tag/workflows/build-test/badge.svg">
   </a>
 </p>
 
-# Create a git tag based on the attached milestone
+# Create a Git tag based on the attached milestone
 
 - [Description](#description)
 - [Inputs](#inputs)
@@ -18,7 +20,7 @@
 
 ## Description
 
-This github action can be used on pull request merge to tag the repository. The
+This GitHub Action can be used on pull request merge to tag the repository. The
 tag name is based on the attached milestone if any or on the previous tag.
 
 You can also use the input `custom_tag` to modify the tag name by for example
@@ -38,7 +40,7 @@ to the PR or based on the `milestone_pattern` input (default to `.*?`).
 <!-- prettier-ignore -->
 | Variable             | Type   | Default        | Description              |
 | -------------------- | ------ | -------------- | ------------------------ |
-| `github_token`       | String | -              | REQUIRED. Github token to access the repository. |
+| `github_token`       | String | -              | REQUIRED. GitHub token to access the repository. |
 | `custom_tag`         | String | `${MILESTONE}` | Custom tag to set. Several placeholders can be used, see [Custom Tag Placeholders](#custom-tag-placeholders). |
 | `initial_tag_number` | Number | `1`            | Initial `TAG_NUMBER` placeholder. |
 | `milestone_pattern`  | String | `.+?`          | Milestone pattern used to search for previous tag when not milestone is attached. |
@@ -110,7 +112,7 @@ Make sure your changes follows the formatting and linting
 npm run format-check && npm run lint
 ```
 
-Build the typescript and package it for distribution
+Build the TypeScript and package it for distribution
 
 ```bash
 npm run build && npm run package
@@ -131,7 +133,7 @@ $ npm test
 
 ### Create new Release
 
-Actions are run from GitHub repos so we will checkin the packed dist folder.
+Actions are run from GitHub repos so we will checking the packed dist folder.
 
 1. First make sure the version in `package.json` match the next release version,
    if not update it.
@@ -150,8 +152,8 @@ Actions are run from GitHub repos so we will checkin the packed dist folder.
 
 ### Validate
 
-You can now validate the action by referencing `./` in a workflow in your repo
-(see [test.yml](.github/workflows/test.yml))
+You can now validate the action by referencing `./` in a workflow in your
+repository (see [test.yml](.github/workflows/test.yml))
 
 ```yaml
 uses: ./
